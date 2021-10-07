@@ -11,7 +11,7 @@ source:
   sha256: 03e52a5155942154b4f7db26968d463427cdf5aafb57e17734da3e2003500a4d
 
 build:
-  number: 0
+  number: 1
   noarch: python
   entry_points:
     - pyadb = adb.adb_debug:main
