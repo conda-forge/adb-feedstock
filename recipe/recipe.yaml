@@ -1,0 +1,57 @@
+schema_version: 1
+
+context:
+  name: adb
+  version: "1.3.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/adb-${{ version }}.tar.gz
+  sha256: 03e52a5155942154b4f7db26968d463427cdf5aafb57e17734da3e2003500a4d
+
+build:
+  number: 3
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  python:
+    entry_points:
+      - pyadb = adb.adb_debug:main
+      - pyfastboot = adb.fastboot_debug:main
+
+requirements:
+  host:
+    - pip
+    - rsa
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - libusb1 >=1.0.16
+    - rsa
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - adb
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: Python ADB + Fastboot implementation
+  description: |
+    This repository contains a pure-python implementation of the ADB and
+    Fastboot protocols, using libusb1 for USB communications.
+  homepage: https://github.com/google/python-adb
+  repository: https://github.com/google/python-adb
+  documentation: https://github.com/google/python-adb
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
